@@ -3,5 +3,4 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-CMD streamlit run app.py --server.addr 0.0.0.0 --server.port $PORT
-
+CMD streamlit run app.py --server.address 0.0.0.0 --server.port $PORT
