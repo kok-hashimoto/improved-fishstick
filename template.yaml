@@ -5,48 +5,16 @@ Resources:
   BookingTable:
     Type: AWS::Serverless::SimpleTable
     Properties: {}
-  BookingAdd:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: booking_add/
-      Handler: app.lambda_handler
-      Runtime: python3.10
-      Architectures:
-      - x86_64
-      FunctionUrlConfig:
-        AuthType: NONE
-      Environment:
-        Variables:
-          USER_TABLE: !Ref BookingTable
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref BookingTable
   RoomTable:
     Type: AWS::Serverless::SimpleTable
     Properties: {}
-  RoomAdd:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: room_add/
-      Handler: app.lambda_handler
-      Runtime: python3.10
-      Architectures:
-      - x86_64
-      FunctionUrlConfig:
-        AuthType: NONE
-      Environment:
-        Variables:
-          USER_TABLE: !Ref RoomTable
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref RoomTable
   UserTable:
     Type: AWS::Serverless::SimpleTable
     Properties: {}
-  UserAdd:
+  EventHandler:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: user_add/
+      CodeUri: event_handler/
       Handler: app.lambda_handler
       Runtime: python3.10
       Architectures:
@@ -55,7 +23,13 @@ Resources:
         AuthType: NONE
       Environment:
         Variables:
-          USER_TABLE: !Ref UserTable
+          BOOKING_TABLE: !Ref BookingTable
+          ROOM_TABLE: !Ref RoomTable
+          USER_TABLE: !Ref UserTable          
       Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref BookingTable
+      - DynamoDBCrudPolicy:
+          TableName: !Ref RoomTable
       - DynamoDBCrudPolicy:
           TableName: !Ref UserTable

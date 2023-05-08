@@ -5,7 +5,8 @@
             "ImageIdentifier": "219494815276.dkr.ecr.ap-northeast-1.amazonaws.com/kok-hashimoto-improved-fishstick:latest",
             "ImageConfiguration": {
                 "RuntimeEnvironmentVariables": {
-                    "PORT": "8000"
+                    "PORT": "8000",
+                    "EVENT_HANDLER_URL": "https://rh2p6kn45gopcg7rj7ygteiq6q0dnhih.lambda-url.ap-northeast-1.on.aws/"
                 },
                 "Port": "8000"
             },
