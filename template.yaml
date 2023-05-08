@@ -2,6 +2,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+  UserTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties: {}
   UserAdd:
     Type: AWS::Serverless::Function
     Properties:
@@ -9,6 +12,12 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.10
       Architectures:
-        - x86_64
+      - x86_64
       FunctionUrlConfig:
         AuthType: NONE
+      Environment:
+        Variables:
+          USER_TABLE: !Ref UserTable
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref UserTable
