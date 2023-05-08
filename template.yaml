@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  UserAdd:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: user_add/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+        - x86_64
+      FunctionUrlConfig:
+        AuthType: NONE
