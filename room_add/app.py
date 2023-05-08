@@ -9,18 +9,19 @@ def lambda_handler(event, context):
     print(f"{event=}")
     print(f"{context=}")
 
-    user_table = os.environ["USER_TABLE"]
+    room_table = os.environ["ROOM_TABLE"]
 
     id = str(uuid.uuid4())
     body = base64.b64decode(event["body"])
     params = json.loads(body)
     name = params["name"]
-    new_user = {"id":id, "name":name}
+    capacity = params["capacity"]
+    new_room = {"id":id, "name":name, "capacity":capacity}
 
-    table = boto3.resource("dynamodb").Table(user_table)
-    table.put_item(Item=new_user)
+    table = boto3.resource("dynamodb").Table(room_table)
+    table.put_item(Item=new_room)
 
     return {
         "statusCode": 200,
-        "body": json.dumps(new_user),
+        "body": json.dumps(new_room),
     }

@@ -2,6 +2,44 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+  BookingTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties: {}
+  BookingAdd:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: booking_add/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+      - x86_64
+      FunctionUrlConfig:
+        AuthType: NONE
+      Environment:
+        Variables:
+          USER_TABLE: !Ref BookingTable
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref BookingTable
+  RoomTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties: {}
+  RoomAdd:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: room_add/
+      Handler: app.lambda_handler
+      Runtime: python3.10
+      Architectures:
+      - x86_64
+      FunctionUrlConfig:
+        AuthType: NONE
+      Environment:
+        Variables:
+          USER_TABLE: !Ref RoomTable
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref RoomTable
   UserTable:
     Type: AWS::Serverless::SimpleTable
     Properties: {}
