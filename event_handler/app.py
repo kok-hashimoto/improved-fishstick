@@ -18,10 +18,16 @@ def lambda_handler(event, context):
     handler = params["handler"]
     if handler == "booking_add":
         resp = booking_add(booking_table, params)
+    elif handler == "booking_list":
+        resp = booking_list(booking_table)
     elif handler == "room_add":
         resp = room_add(room_table, params)
+    elif handler == "room_list":
+        resp = room_list(room_table)
     elif handler == "user_add":
         resp = user_add(user_table, params)
+    elif handler == "user_list":
+        resp = user_list(user_table)
     else:
         return {"statusCode": 500, "body": "no matching handler"}
 
@@ -45,6 +51,14 @@ def booking_add(booking_table: str, params:dict[str, str]):
 
     return new_booking
 
+def booking_list(booking_table: str) -> list[dict[str, str]]:
+    table = boto3.resource("dynamodb").Table(booking_table)
+    items = table.scan()["Items"]
+    bookings = []
+    for item in items:
+        bookings.append({"id":item["id"], "user_id":item["user_id"], "room_id":item["room_id", "reserved_num":item["reserved_num"], "begin_date_time":item["begin_date_time"], "end_date_time":item["end_date_time"]]})
+    return bookings
+
 def room_add(room_table: str, params: dict[str, str]):
     id = str(uuid.uuid4())
     name = params["name"]
@@ -56,6 +70,14 @@ def room_add(room_table: str, params: dict[str, str]):
 
     return new_room
 
+def room_list(room_table: str) -> list[dict[str, str]]:
+    table = boto3.resource("dynamodb").Table(room_table)
+    items = table.scan()["Items"]
+    rooms = []
+    for item in items:
+        rooms.append({"id":item["id"], "name":item["name"], "capacity":item["capacity"]})
+    return rooms
+
 def user_add(user_table: str, params: dict[str, str]):
     id = str(uuid.uuid4())
     name = params["name"]
@@ -65,3 +87,11 @@ def user_add(user_table: str, params: dict[str, str]):
     table.put_item(Item=new_user)
 
     return new_user
+
+def user_list(user_table: str) -> list[dict[str, str]]:
+    table = boto3.resource("dynamodb").Table(user_table)
+    items = table.scan()["Items"]
+    users = []
+    for item in items:
+        users.append({"id":item["id"], "name":item["name"]})
+    return users
