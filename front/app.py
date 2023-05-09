@@ -11,8 +11,21 @@ def run():
     page_map = {"booking":show_booking, "room":show_room, "user":show_user}
     page_map[page](event_handler_url)
 
+def list_rooms(event_handler_url: str) -> list[dict[str, str]]:
+    resp = requests.post(event_handler_url, data=json.dumps({"handler":"room_list"}))
+    return resp.json()
+
+def list_users(event_handler_url: str) -> list[dict[str, str]]:
+    resp = requests.post(event_handler_url, data=json.dumps({"handler":"user_list"}))
+    return resp.json()
+
 def show_booking(event_handler_url: str):
     st.title("予約登録")
+
+    users = list_users(event_handler_url)
+    st.write(users)
+    rooms = list_rooms(event_handler_url)
+    st.write(rooms)
 
     with st.form(key="booking"):
         user_id: int = "abc"

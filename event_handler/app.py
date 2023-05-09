@@ -56,7 +56,7 @@ def booking_list(booking_table: str) -> list[dict[str, str]]:
     items = table.scan()["Items"]
     bookings = []
     for item in items:
-        bookings.append({"id":item["id"], "user_id":item["user_id"], "room_id":item["room_id", "reserved_num":item["reserved_num"], "begin_date_time":item["begin_date_time"], "end_date_time":item["end_date_time"]]})
+        bookings.append({"id":item["id"], "user_id":item["user_id"], "room_id":item["room_id", "reserved_num":int(item["reserved_num"]), "begin_date_time":item["begin_date_time"], "end_date_time":item["end_date_time"]]})
     return bookings
 
 def room_add(room_table: str, params: dict[str, str]):
@@ -75,7 +75,7 @@ def room_list(room_table: str) -> list[dict[str, str]]:
     items = table.scan()["Items"]
     rooms = []
     for item in items:
-        rooms.append({"id":item["id"], "name":item["name"], "capacity":item["capacity"]})
+        rooms.append({"id":item["id"], "name":item["name"], "capacity":int(item["capacity"])})
     return rooms
 
 def user_add(user_table: str, params: dict[str, str]):
