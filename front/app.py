@@ -45,7 +45,6 @@ def show_booking(event_handler_url: str):
                 "begin_date_time": begin_date_time,
                 "end_date_time": end_date_time,
             }
-            st.write(json.dumps(data))
             resp = requests.post(event_handler_url, data=json.dumps(data))
             st.json(resp.json())
 
