@@ -26,13 +26,11 @@ def show_booking(event_handler_url: str):
     users_dict = {}
     for u in users:
         users_dict[u["name"]] = u["id"]
-    st.write(users_dict)
 
     rooms = list_rooms(event_handler_url)
     rooms_dict = {}
     for r in rooms:
         rooms_dict[r["name"]] = {"id":r["id"], "capacity":r["capacity"]}
-    st.write(rooms_dict)
 
     with st.form(key="booking"):
         user_id: int = "abc"
