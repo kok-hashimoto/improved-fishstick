@@ -12,7 +12,7 @@ def run():
     page_map[page](event_handler_url)
 
 def show_booking(event_handler_url: str):
-    st.title("API test booking")
+    st.title("予約登録")
 
     with st.form(key="booking"):
         user_id: int = "abc"
@@ -46,16 +46,20 @@ def show_booking(event_handler_url: str):
                 "end_date_time": end_date_time,
             }
             resp = requests.post(event_handler_url, data=json.dumps(data))
+            if resp.status_code == 200:
+                st.success("登録成功")
+            else:
+                st.error("登録失敗")
             st.json(resp.json())
 
 
 def show_room(event_handler_url: str):
-    st.title("API test room")
+    st.title("会議室登録")
 
     with st.form(key="room"):
         name: str = st.text_input("会議室名", max_chars=12)
         capacity: int = st.number_input("定員", min_value=1, step=1)
-        submit_button = st.form_submit_button(label="submit")
+        submit_button = st.form_submit_button(label="登録")
         if submit_button:
             data = {
                 "handler": "room_add",
@@ -63,20 +67,28 @@ def show_room(event_handler_url: str):
                 "capacity": capacity,
             }
             resp = requests.post(event_handler_url, data=json.dumps(data))
+            if resp.status_code == 200:
+                st.success("登録成功")
+            else:
+                st.error("登録失敗")
             st.json(resp.json())
 
 def show_user(event_handler_url: str):
-    st.title("API test user")
+    st.title("ユーザー登録")
 
     with st.form(key="user"):
         name: str = st.text_input("氏名", max_chars=12)
-        submit_button = st.form_submit_button(label="submit")
+        submit_button = st.form_submit_button(label="登録")
         if submit_button:
             data = {
                 "handler": "user_add",
                 "name": name,
             }            
             resp = requests.post(event_handler_url, data=json.dumps(data))
+            if resp.status_code == 200:
+                st.success("登録成功")
+            else:
+                st.error("登録失敗")
             st.json(resp.json())
 
 run()
